@@ -16,10 +16,6 @@ app.get("/test", (req, res) => {
 
 app.post("/chat", async (req, res) => {
   const { message } = req.body;
-    if (!response.ok) {console.error("OpenAI API Error:", response.status, data);
-    return res.json({ reply: "AI service error. Check logs." });
-}
-
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -29,18 +25,27 @@ app.post("/chat", async (req, res) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-5",
+        model: "gpt-4o-mini", // safer, since gpt-5 may not be available via API
         messages: [
-          { role: "system", content: "You are a cute, friendly girl NPC inside a Roblox game. Speak short, casual, and playful." },
+          {
+            role: "system",
+            content: "You are a cute, friendly girl NPC inside a Roblox game. Speak short, casual, and playful."
+          },
           { role: "user", content: message }
         ]
       })
     });
 
     const data = await response.json();
+
+    if (!response.ok) {
+      console.error("OpenAI API Error:", response.status, data);
+      return res.json({ reply: "AI service error. Check logs." });
+    }
+
     res.json({ reply: data.choices[0].message.content });
   } catch (error) {
-    console.error(error);
+    console.error("Server Error:", error);
     res.status(500).json({ reply: "Oops, I can’t talk right now!" });
   }
 });
