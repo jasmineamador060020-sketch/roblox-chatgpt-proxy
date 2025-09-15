@@ -4,6 +4,16 @@ import fetch from "node-fetch";
 const app = express();
 app.use(express.json());
 
+// Debug route to confirm key
+app.get("/test", (req, res) => {
+  res.json({
+    keyFound: !!process.env.OPENAI_API_KEY,
+    keyStart: process.env.OPENAI_API_KEY
+      ? process.env.OPENAI_API_KEY.slice(0, 4) + "..."
+      : null
+  });
+});
+
 app.post("/chat", async (req, res) => {
   const { message } = req.body;
 
