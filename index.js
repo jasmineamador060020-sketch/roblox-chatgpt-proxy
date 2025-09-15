@@ -25,7 +25,7 @@ app.post("/chat", async (req, res) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini", // safer, since gpt-5 may not be available via API
+        model: "gpt-4o-mini", // use a valid API model
         messages: [
           {
             role: "system",
@@ -50,4 +50,5 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Server running on port ${port}`));
