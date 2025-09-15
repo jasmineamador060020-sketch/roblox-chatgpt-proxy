@@ -14,12 +14,12 @@ app.get("/test", (req, res) => {
   });
 });
 
-app.post("/chat" if (!response.ok) {
-  console.error("OpenAI API Error:", response.status, data);
-  return res.json({ reply: "AI service error. Check logs." });
-}
-, async (req, res) => {
+app.post("/chat", async (req, res) => {
   const { message } = req.body;
+    if (!response.ok) {console.error("OpenAI API Error:", response.status, data);
+    return res.json({ reply: "AI service error. Check logs." });
+}
+
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
